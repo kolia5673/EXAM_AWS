@@ -1,0 +1,54 @@
+﻿@model IEnumerable<AIImageService.Models.ImageAnalysis>
+
+@{
+    ViewData["Title"] = "Analysis History";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Analysis History</h1>
+        <a asp-action="Index" class="btn btn-outline-primary">
+            Back to home
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No analyses found.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>File name</th>
+                        <th>Date (UTC)</th>
+                        <th>Prediction</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.ImageUrl"
+                                     alt="Uploaded image"
+                                     width="75"
+                                     height="60"
+                                     style="object-fit:cover;"
+                                     class="rounded" />
+                            </td>
+                            <td class="text-break">@item.FileName</td>
+                            <td>@item.CreatedAt.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>@item.Prediction</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

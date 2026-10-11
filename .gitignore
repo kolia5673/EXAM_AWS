@@ -1,0 +1,31 @@
+﻿# Build output
+bin/
+obj/
+publish-linux/
+
+# Local database
+*.db
+*.db-shm
+*.db-wal
+
+# Archives
+*.zip
+
+# Secrets
+.env
+.env.*
+!.env.example
+appsettings.Local.json
+
+# IDE
+.vs/
+*.user
+*.suo
+
+# Credentials
+*.pem
+*.key
+secrets.json
+
+# User uploads
+wwwroot/uploads/

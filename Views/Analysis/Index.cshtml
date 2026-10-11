@@ -1,0 +1,97 @@
+﻿@model IEnumerable<AIImageService.Models.ImageAnalysis>
+
+@{
+    ViewData["Title"] = "AI Image Service";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">AI Image Service</h1>
+        <p class="text-secondary">
+            Upload an image and analyze it with artificial intelligence.
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0 rounded-4 mx-auto mb-5"
+         style="max-width: 700px;">
+        <div class="card-body p-4 p-md-5">
+            <h3 class="mb-4">Image analysis</h3>
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">
+                    @TempData["Error"]
+                </div>
+            }
+
+            <form asp-controller="Analysis"
+                  asp-action="Upload"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="mb-4">
+                    <label for="image" class="form-label">
+                        Choose an image
+                    </label>
+
+                    <input type="file"
+                           class="form-control"
+                           id="image"
+                           name="image"
+                           accept=".jpg,.jpeg,.png,.webp"
+                           required />
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg w-100">
+                    Analyze image
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h3">Recent analyses</h2>
+        <a asp-action="History" class="btn btn-outline-primary">
+            View full history
+        </a>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center text-secondary py-5">
+            No images analyzed yet. Upload your first image!
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <img src="@item.ImageUrl"
+                             class="card-img-top"
+                             alt="Uploaded image"
+                             style="height:220px;object-fit:cover;" />
+
+                        <div class="card-body">
+                            <h5 class="card-title text-break">
+                                @item.FileName
+                            </h5>
+
+                            <p class="text-secondary small">
+                                @item.CreatedAt.ToString("dd.MM.yyyy HH:mm") UTC
+                            </p>
+
+                            <p class="mb-1">
+                                <strong>Prediction:</strong>
+                                @item.Prediction
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
